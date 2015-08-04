@@ -35,6 +35,13 @@ func GetAccessToken(reqToken *oauth1.RequestToken, pin string) (*oauth1.Token, e
 	return conf.GetAccessToken(reqToken, pin)
 }
 
+// https://dev.twitter.com/rest/reference/get/account/verify_credentials
+func VerifyCredentials(token *oauth1.Token) (*http.Response, error) {
+	conf.Endpoint = twitter.AuthenticateEndpoint
+	client := oauth1.NewClient(conf, token)
+	return client.Get("https://api.twitter.com/1.1/account/verify_credentials.json")
+}
+
 // https://dev.twitter.com/rest/reference/post/statuses/update
 func Tweet(tweet string, token *oauth1.Token) (*http.Response, error) {
 	conf.Endpoint = twitter.AuthenticateEndpoint
