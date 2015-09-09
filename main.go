@@ -9,7 +9,7 @@ import (
 
 	"github.com/dghubble/oauth1"
 	"github.com/mitchellh/go-homedir"
-	"github.com/yuntan/tw/gotw"
+	"github.com/yuntan/tw/go-tw"
 )
 
 var settingFile string
@@ -35,7 +35,7 @@ func main() {
 				Token:       s.AccessToken,
 				TokenSecret: s.AccessTokenSecret,
 			}
-			resp, err := gotw.Tweet(string(b), token)
+			resp, err := tw.Tweet(string(b), token)
 			if err != nil || resp.StatusCode/100 != 2 {
 				os.Exit(1)
 			}
@@ -54,7 +54,7 @@ func main() {
 				Token:       s.AccessToken,
 				TokenSecret: s.AccessTokenSecret,
 			}
-			resp, err := gotw.Tweet(os.Args[1], token)
+			resp, err := tw.Tweet(os.Args[1], token)
 			if err != nil {
 				log.Fatalln(err)
 			} else if resp.StatusCode/100 != 2 {
@@ -69,7 +69,7 @@ func main() {
 }
 
 func addAccount() {
-	reqToken, url, err := gotw.GetRequestToken()
+	reqToken, url, err := tw.GetRequestToken()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -79,12 +79,12 @@ func addAccount() {
 	var pin string
 	fmt.Scanf("%s", &pin)
 
-	token, err := gotw.GetAccessToken(reqToken, pin)
+	token, err := tw.GetAccessToken(reqToken, pin)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	resp, err := gotw.VerifyCredentials(token)
+	resp, err := tw.VerifyCredentials(token)
 	if err != nil {
 		log.Fatalf("error: account verification failed: %s\n", err)
 	}
