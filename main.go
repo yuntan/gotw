@@ -22,6 +22,12 @@ func main() {
 		log.Fatalf("error: failed to get home dir: %s\n", err)
 	}
 
+	tw.Config = &oauth1.Config{
+		ConsumerKey:    CONSUMER_KEY,
+		ConsumerSecret: CONSUMER_SECRET,
+		CallbackURL:    "oob",
+	}
+
 	if len(os.Args) == 1 {
 		b, _ := ioutil.ReadAll(os.Stdin)
 
